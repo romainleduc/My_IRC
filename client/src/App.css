@@ -1,0 +1,89 @@
+body {
+  background-color: #252321;
+  font-family: 'ABeeZee', sans-serif;
+}
+
+#my-irc {
+  position: fixed;
+  right: 0;
+  margin-right: 315px;
+  height:60px;
+  width: 120px;
+  background-color: #504d46;
+  border: solid 1px #1d1e20;
+}
+
+#my-irc h2{
+  font-weight: normal;
+  font-size: 24px;
+  color: #e7e0a2;
+  text-align: center;
+  margin-top: 14px; 
+}
+
+#body-users {
+  position: fixed;
+  right:0;
+  height: 100%;
+  width: 17%;
+  font-size: 18px;
+  color: rgb(8, 226, 171);
+  background-color: #3d3b37;
+}
+
+#body-users h2 {
+  border: solid 1px #1d1e20;
+  border-left: 0;
+  background-color: #504d46;
+  padding: 5px;
+  font-size: 14px;
+  font-weight: normal;
+  color: rgb(240, 240, 240);
+  text-align: center;
+}
+
+#list-users {
+  padding: 5px;
+}
+
+#list-users li{
+  list-style: none;
+  padding: 15px;
+  border-top: 0px;
+}
+
+#body-users .the-users {
+  padding: 15px;
+  border-top: 0px;
+}
+
+#login {
+  margin-top: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 1000px;
+  width: 1000px;
+}
+
+#login h2 {
+  color: white;
+}
+
+#login-form input
+{
+  height: 35px;
+  width: 400px;
+}
+
+#login-submit
+{
+  color: black;
+}
+
+#channels 
+{
+    height: 200px;
+    width: 200px;
+    background-color: red;
+}
+
