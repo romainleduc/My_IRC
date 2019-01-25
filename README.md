@@ -1,8 +1,17 @@
 # My_IRC
 
 # Dependencies
-npm install into server folder and client folder
+Into server folder and client folder
+```
+npm install
+```
 
 # Run
-node server.js into server/src folder   
-npm start into client folder
+1. Into server/src folder    
+```
+node server.js
+```
+2. Into client folder    
+```
+npm install
+```
