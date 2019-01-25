@@ -13,5 +13,5 @@ node server.js
 ```
 2. Into client folder    
 ```
-npm install
+npm start
 ```
