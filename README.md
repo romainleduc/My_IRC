@@ -9,6 +9,7 @@ Steps to run this project:
 
 ### Contraintes
 - Projet réalisé en un peu plus d'une semaine
+- N'avait encore aucune connsaissance de Node.js et React.js
 
 ### Commandes disponibles
  - /create [channel]
