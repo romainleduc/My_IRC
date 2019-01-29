@@ -15,7 +15,7 @@ Steps to run this project:
  - /join [channel]
  - /leave
  - /delete [channel]
- - /change
+ - /change [channel] [new channel]
  - /users
  - /list
  - /where [username = null]
