@@ -1,17 +1,22 @@
 # My_IRC
 
-# Dependencies
-Into server folder and client folder
-```
-npm install
-```
+Steps to run this project:
 
-# Run
-1. Into server/src folder    
-```
-node server.js
-```
-2. Into client folder    
-```
-npm start
-```
+1. Run `npm i` command into server folder and client folder
+2. Run `node server.js` into server/src folder  
+3. Run `npm start` command into client folder
+
+## Informations sur le projet
+
+### Commandes disponibles
+
+
+### Outils utilisés
+- Javascript
+- React.js
+- Node.js
+- Express.js
+- Socket.io
+
+### Contraintes
+- Projet réalisé en un peu moin de 2 semaines
