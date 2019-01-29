@@ -8,6 +8,16 @@ Steps to run this project:
 ## Informations sur le projet
 
 ### Commandes disponibles
+ - /create [channel]
+ - /join [channel]
+ - /leave
+ - /delete [channel]
+ - /change
+ - /users
+ - /list
+ - /where [username = null]
+ - /msg [username] [message]
+ - /nick"
 
 
 ### Outils utilisés
