@@ -7,6 +7,9 @@ Steps to run this project:
 
 ## Informations sur le projet
 
+### Contraintes
+- Projet réalisé en un peu plus d'une semaine
+
 ### Commandes disponibles
  - /create [channel]
  - /join [channel]
@@ -17,7 +20,7 @@ Steps to run this project:
  - /list
  - /where [username = null]
  - /msg [username] [message]
- - /nick"
+ - /nick
 
 
 ### Outils utilisés
@@ -26,6 +29,3 @@ Steps to run this project:
 - Node.js
 - Express.js
 - Socket.io
-
-### Contraintes
-- Projet réalisé en un peu moin de 2 semaines
