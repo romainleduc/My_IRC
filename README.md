@@ -20,7 +20,7 @@ Steps to run this project:
  - /list
  - /where [username = null]
  - /msg [username] [message]
- - /nick
+ - /nick [new username]
 
 
 ### Outils utilisés
