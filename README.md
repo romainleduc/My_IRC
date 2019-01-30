@@ -28,5 +28,4 @@ Steps to run this project:
 - Javascript
 - React.js
 - Node.js
-- Express.js
 - Socket.io
