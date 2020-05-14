@@ -31,6 +31,7 @@ class Chat extends Component {
     componentDidMount() {
         this.props.socket.on('chat message', (newUser, msg, color, tab) => {
             this.createMessage(newUser, msg, color, tab);
+            console.log(newUser, msg)
         });
 
         this.props.socket.on('RedirectDelete', () => {

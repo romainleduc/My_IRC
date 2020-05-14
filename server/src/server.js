@@ -335,9 +335,9 @@ io.on('connection', function(socket) {
     /**
      * 
      */
-    function sendBotMessage(message, tab = [], color = "#c911ff", test = false) {
+    function sendBotMessage(message, tab = [], color = "#fff", test = false) {
         io.to(socket.user.room.name).emit(
-            'chat message', "Bot My_IRC [<FONT COLOR ='#dc8019'>"+socket.user.room.name + "</FONT>]",
+            'chat message', "Bot My_IRC [<FONT COLOR ='#e8e8e8'>"+socket.user.room.name + "</FONT>]",
             message,
             color,
             tab
@@ -498,6 +498,7 @@ io.on('connection', function(socket) {
     socket.on('disconnect', function() {
         if(socket.user.name != "Unknow") {
             io.emit('removeUser', socket.user.name);
+            sendBotMessage("<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT> est parti");
             deleteUser(socket.user);
             socket.user.name = "Unknow";
             socket.user.room = rooms[0];
@@ -508,6 +509,6 @@ io.on('connection', function(socket) {
 /**
  * 
  */
-io.listen(3017, function(){
+io.listen(3001, function(){
     console.log('listening on *:3009');
 });

@@ -10,7 +10,7 @@ class App extends Component {
         super();
 
         this.state = {
-            socket : io('http://localhost:3017'),
+            socket : io('http://localhost:3001'),
             avatar: null,
             user: '',
             courantLogged : false
