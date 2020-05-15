@@ -413,7 +413,7 @@ io.on('connection', function (socket) {
         }
 
         if (test) {
-            localSendBotMessage("Liste des utilisateurs present sur le channel:",
+            localSendBotMessage("Liste des utilisateurs présents sur le channel:",
                 test);
         }
     });
@@ -454,7 +454,7 @@ io.on('connection', function (socket) {
             }
         }
 
-        localSendBotMessage("Liste des channels disponible:", result);
+        localSendBotMessage("Liste des canaux disponibles:", result);
     });
 
     /**
@@ -477,13 +477,14 @@ io.on('connection', function (socket) {
             var user = searchUserByName(options[0]);
 
             if (user) {
-                var msg = options.filter((item) => item !== options[0]).toString().replace(',', ' ');
+                console.log(msg, options)
+                var msg = options.filter((item) => item !== options[0]).join(' ');
                 sendPrivateMessage(user.name, msg);
             } else {
                 sendErrorMessage('Utilisateur introuvable');
             }
         } else {
-            sendErrorMessage('La commande doit prend deux parametres');
+            sendErrorMessage('La commande prend deux parametres');
         }
     });
 

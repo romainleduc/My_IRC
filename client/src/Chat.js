@@ -27,6 +27,7 @@ class Chat extends Component {
      */
     componentDidMount() {
         this.props.socket.on('chat message', (newUser, msg, color, tab) => {
+            console.log(msg)
             this.createMessage(newUser, msg, color, tab);
             const el = document.getElementById('chat-messages');
             el.scrollTop = el.scrollHeight;
