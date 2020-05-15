@@ -1,9 +1,10 @@
 #users {
-    width: 350px; 
+    width: 266px; 
     font-size: 18px;
     color: #fff;
     background-color: #0d0d0d4f;
     border-left: solid 1px #ffffff1c;
+    padding: 35px;
 }
   
 #users h2 {
@@ -13,4 +14,6 @@
     font-weight: normal;
     color: rgb(8, 224, 175);
     text-align: center;
+    margin-top: -5px;
+    border-bottom: solid;
 }

@@ -35,8 +35,8 @@ class App extends Component {
             <div className="app">
                 {this.state.courantLogged &&
                     <>
-                        <Chat socket={this.state.socket} />
                         <UsersList socket={this.state.socket} />
+                        <Chat socket={this.state.socket} />
                     </>
                 }
 
