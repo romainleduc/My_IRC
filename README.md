@@ -5,13 +5,15 @@ Steps to run this project:
 1. Run `npm i` command into server folder and client folder
 2. Run `npm start` command into server folder and client folder
 
-## Informations sur le projet
+## Project information
 
-### Contraintes
-- Projet réalisé en un peu plus d'une semaine
-- N'avait encore aucune connaissance de Node.js et React.js
+This is a school project carried out as part of my training at Epitech
 
-### Commandes disponibles
+### Constraints
+- Project completed in one week
+- Had no knowledge of Node.js and React.js
+
+### Commands available
  - /create [channel]
  - /join [channel]
  - /leave
@@ -24,7 +26,7 @@ Steps to run this project:
  - /nick [new username]
 
 
-### Outils utilisés
+### Tools used
 - Javascript
 - React.js
 - Node.js
