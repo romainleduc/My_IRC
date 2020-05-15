@@ -1,6 +1,7 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
+import './UserList.css';
 
-const ListItem = function(props) {
+const ListItem = function (props) {
     return <li>{props.item}</li>
 }
 
@@ -18,26 +19,26 @@ class UsersList extends Component {
             this.addUser(newUser);
         });
 
-         this.props.socket.on('removeUser', (user) => {
+        this.props.socket.on('removeUser', (user) => {
             this.deleteUser(user);
         });
 
         this.props.socket.on('initUsers', (users) => {
             var tabUsers = [];
 
-            for(var i in users) {
+            for (var i in users) {
                 tabUsers.splice(1, 0, users[i].name);
             }
 
             this.setState({
-                users : tabUsers
+                users: tabUsers
             })
         });
     }
 
     createList() {
         return this.state.users.map((item, index) => {
-            return <ListItem item={item} key={index}/>
+            return <ListItem item={item} key={index} />
         });
     }
 
@@ -54,14 +55,12 @@ class UsersList extends Component {
     }
 
     render() {
-        return( 
-            <div id="body-users">
+        return (
+            <div id="users">
                 <h2>UTILISATEURS</h2>
-                <div id="users">
-                    <ul id="users-list">
-                        {this.createList()}
-                    </ul>
-                </div>
+                <ul id="users-list">
+                    {this.createList()}
+                </ul>
             </div>
         )
     }

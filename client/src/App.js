@@ -10,10 +10,10 @@ class App extends Component {
         super();
 
         this.state = {
-            socket : io('http://localhost:3001'),
+            socket: io('http://localhost:3001'),
             avatar: null,
             user: '',
-            courantLogged : false
+            courantLogged: false
         };
     }
 
@@ -21,28 +21,27 @@ class App extends Component {
         this.state.socket.on('logged', (newUser) => {
             this.setState({
                 user: newUser,
-                courantLogged : true
+                courantLogged: true
             });
         });
     }
 
     render() {
-        var state;
-
-        if(this.state.courantLogged) {
-            state = <div><UsersList socket={this.state.socket} /> <Chat socket={this.state.socket} /></div>
-        } else {
-            state = <Login socket={this.state.socket} courantLogged={this.state.courantLogged}/>
-        }
-
         return (
-            <div className="App">
-                <header className="App-header">
-                    <div id="my-irc">
-                        <h2>MY_IRC</h2>
-                    </div>
-                    {state}
-                </header>
+            <div className="app">
+                {this.state.courantLogged &&
+                    <>
+                        <Chat socket={this.state.socket} />
+                        <UsersList socket={this.state.socket} />
+                    </>
+                }
+
+                {!this.state.courantLogged &&
+                    < Login
+                        socket={this.state.socket}
+                        courantLogged={this.state.courantLogged}
+                    />
+                }
             </div>
         );
     }

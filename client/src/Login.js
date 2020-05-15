@@ -11,7 +11,7 @@ class Login extends Component {
 
         return(
             <div id="login">
-                <h2>Se connecter à My_IRC</h2>
+                <h2>Se connecter à IRC</h2>
                 <form id="login-form" action="" onSubmit={this.handleSubmit}>
                     <input id="username" type="text" name="username" placeholder="Pseudo"/>
                     <button>Valider</button>

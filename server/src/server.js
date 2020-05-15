@@ -259,7 +259,7 @@ io.on('connection', function(socket) {
 
             //setTimeout(function(){ console.log("ok super supprimé"); }, roomAutoDelete);
 
-            allSendBotMessage("<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT>" + " vient de creer le channel  <FONT COLOR ='#dc8019'>" + theRoom + "</FONT>");
+            allSendBotMessage("<FONT COLOR ='#fff'>" + socket.user.name + "</FONT>" + " vient de creer le channel  <FONT COLOR ='#ff9200'>" + theRoom + "</FONT>");
         }
     });
 
@@ -269,7 +269,7 @@ io.on('connection', function(socket) {
     socket.on('CommandDelete', function(targetRoom = []) {
         var theRoom = targetRoom.toString().replace(",", " ");
         if(deleteRoom(theRoom)) {
-            allSendBotMessage("<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT>" + " vient de supprimer le channel <FONT COLOR ='#dc8019'>" + theRoom + "</FONT>");
+            allSendBotMessage("<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT>" + " vient de supprimer le channel <FONT COLOR ='#ff9200'>" + theRoom + "</FONT>");
             io.to(theRoom).emit('RedirectDelete');
         }
     });
@@ -335,9 +335,9 @@ io.on('connection', function(socket) {
     /**
      * 
      */
-    function sendBotMessage(message, tab = [], color = "#fff", test = false) {
+    function sendBotMessage(message, tab = [], color = "#08E0AF", test = false) {
         io.to(socket.user.room.name).emit(
-            'chat message', "Bot My_IRC [<FONT COLOR ='#e8e8e8'>"+socket.user.room.name + "</FONT>]",
+            'chat message', "Bot_IRC [<FONT COLOR ='#fff'>"+socket.user.room.name + "</FONT>]",
             message,
             color,
             tab
@@ -348,30 +348,30 @@ io.on('connection', function(socket) {
         var user = searchUserByName(username);
         
         if(user) {
-            io.sockets.connected[user.id].emit('chat message', socket.user.name + " [<FONT COLOR = '#E3C01F'>message privé</FONT>]" , msg, color, tab);
-            socket.emit('chat message', '<FONT COLOR = "#E3C01F">à </FONT>' + user.name, msg, color, tab);
+            io.sockets.connected[user.id].emit('chat message', socket.user.name + " [<FONT COLOR = '#ffee00'>message privé</FONT>]" , msg, color, tab);
+            socket.emit('chat message', '<FONT COLOR = "#ffee00">à </FONT>' + user.name, msg, color, tab);
         }
     }
     
     /**
      * 
      */
-    function allSendBotMessage(message, tab = [], color = "#c911ff") {
-        io.emit('chat message', "Bot My_IRC [<FONT COLOR ='#dc8019'>Tous</FONT>]", message, color, tab);
+    function allSendBotMessage(message, tab = [], color = "#08E0AF") {
+        io.emit('chat message', "Bot_IRC [<FONT COLOR ='#99ff66'>Tous</FONT>]", message, color, tab);
     }
 
     /**
      * 
      */
-    function localSendBotMessage(message, tab = [], color = "#c911ff") {
-        socket.emit('chat message', "Bot My_IRC [<FONT COLOR ='#E3C01F'>Privé</FONT>]", message, color, tab);
+    function localSendBotMessage(message, tab = [], color = "#08E0AF") {
+        socket.emit('chat message', "Bot_IRC [<FONT COLOR ='#ffee00'>Privé</FONT>]", message, color, tab);
     }
 
     /**
      * Join a room
      */
     socket.on('CommandJoin', function(targetRoom = "") {
-        JoinRoom(targetRoom, "<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT> vient de rejoindre le channel");
+        JoinRoom(targetRoom, "<FONT COLOR ='#fff'>" + socket.user.name + "</FONT> vient de rejoindre le channel");
     });
 
     /**
@@ -381,10 +381,11 @@ io.on('connection', function(socket) {
         var oldRoom = socket.user.room.name;
 
         if(JoinRoom("Lobby",
-            "<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT> vient de rejoindre le channel")) {
+            "<FONT COLOR ='#fff'>" + socket.user.name + "</FONT> vient de rejoindre le channel")) {
                 socket.broadcast.to(oldRoom).emit(
-                    'chat message', "Bot My_IRC [<FONT COLOR ='#dc8019'>"+oldRoom + "</FONT>]",
-                    "<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT> nous a quitté"
+                    'chat message', "Bot_IRC [<FONT COLOR ='#dc8019'>"+oldRoom + "</FONT>]",
+                    "<FONT COLOR ='#fff'>" + socket.user.name + "</FONT> a quitté le channel pour rejoindre le " + "<FONT COLOR ='#ff9200'> lobby</FONT>",
+                    '#08E0AF'
                 );
         }   
     });
@@ -452,7 +453,7 @@ io.on('connection', function(socket) {
         var oldName = socket.user.name;
 
         if(changeUsername(options.toString().replace(",", " "))) {
-            allSendBotMessage(oldName + " vient de changer son pseudo en " + socket.user.name);
+            allSendBotMessage("<FONT COLOR ='#fff'>" + oldName + "</FONT>" + " vient de changer son pseudo en " + "<FONT COLOR ='#fff'>" + socket.user.name + "</FONT>");
             io.emit('initUsers', users.filter((user) => user.logged === true));
         }
     });
@@ -475,7 +476,7 @@ io.on('connection', function(socket) {
      * 
      */
     socket.on('chat message', function(msg) {
-        io.to(socket.user.room.name).emit('chat message', socket.user.name, msg, color = "rgb(8, 226, 171)");
+        io.to(socket.user.room.name).emit('chat message', socket.user.name, msg, color = "#fff");
     });
 
     /**
@@ -486,7 +487,7 @@ io.on('connection', function(socket) {
             socket.emit('logged', username);
             InitUsers();
             InitChannels();
-            JoinRoom(socket.user.room.name, "<FONT COLOR ='#08E0AF'>" + username + "</FONT> vient de rejoindre le channel");
+            JoinRoom(socket.user.room.name, "<FONT COLOR ='#fff'>" + username + "</FONT> vient de rejoindre le channel");
             io.emit('newUser', username);
             socket.user.logged = true;
         }
@@ -498,7 +499,7 @@ io.on('connection', function(socket) {
     socket.on('disconnect', function() {
         if(socket.user.name != "Unknow") {
             io.emit('removeUser', socket.user.name);
-            sendBotMessage("<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT> est parti");
+            sendBotMessage("<FONT COLOR ='#fff'>" + socket.user.name + "</FONT> est parti");
             deleteUser(socket.user);
             socket.user.name = "Unknow";
             socket.user.room = rooms[0];

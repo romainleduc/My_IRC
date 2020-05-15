@@ -1,9 +1,6 @@
 import React, { Component} from 'react';
-import $ from 'jquery'; 
 import './Chat.css';
 import 'emoji-mart/css/emoji-mart.css'
-import { Picker } from 'emoji-mart'
-import { Emoji } from 'emoji-mart'
 
 class Chat extends Component {
     constructor() {
@@ -31,7 +28,9 @@ class Chat extends Component {
     componentDidMount() {
         this.props.socket.on('chat message', (newUser, msg, color, tab) => {
             this.createMessage(newUser, msg, color, tab);
-            console.log(newUser, msg)
+            const el = document.getElementById('chat-messages');
+            el.scrollTop = el.scrollHeight;
+            
         });
 
         this.props.socket.on('RedirectDelete', () => {
@@ -49,16 +48,14 @@ class Chat extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log($('#chat-message').val());
-
         var msg = event.target[0].value.split(" ");
-
+        
         if(this.isCommand(msg[0])) {
             this.executeCommand(msg[0].substr(1), msg.filter((item) => item !== msg[0]));
         } else {
             this.props.socket.emit('chat message', event.target[0].value);
         }
-
+        
         event.target[0].value = "";
     }
 
@@ -142,10 +139,12 @@ class Chat extends Component {
                 <div id="chat-messages">
                 </div>
 
-                {/* <Picker set='facebook' native={false} onSelect={this.addEmoji} /> */}
                 <form id="chat-form" action="" onSubmit={this.handleSubmit}>
-                    <input id="chat-message" placeholder="Ecrire un message" autoComplete="off"/>
-                    <button>Envoyer</button>
+                    <input
+                        id="chat-message"
+                        placeholder="Envoyer un message"
+                        autoComplete="off"
+                    />
                 </form>
             </div>
         )

@@ -1,0 +1,16 @@
+#users {
+    width: 350px; 
+    font-size: 18px;
+    color: #fff;
+    background-color: #0d0d0d4f;
+    border-left: solid 1px #ffffff1c;
+}
+  
+#users h2 {
+    border-left: 0;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: normal;
+    color: rgb(8, 224, 175);
+    text-align: center;
+}

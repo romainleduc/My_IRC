@@ -1,55 +1,29 @@
+html, body {
+  position: relative;
+  height: 100vh;
+}
+
+#root, .app {
+  height: 100%;
+}
+
 body {
-  background-color: #252321;
+  background-color: #33373c;
   font-family: 'ABeeZee', sans-serif;
 }
 
-#my-irc {
-  position: fixed;
-  right: 0;
-  margin-right: 315px;
-  height:60px;
-  width: 120px;
-  background-color: #504d46;
-  border: solid 1px #1d1e20;
+.app {
+  display: flex;
+  justify-content: space-between;
 }
 
-#my-irc h2{
-  font-weight: normal;
-  font-size: 24px;
-  color: #e7e0a2;
-  text-align: center;
-  margin-top: 14px; 
+#users-list {
+  padding: 8px;
 }
 
-#body-users {
-  position: fixed;
-  right:0;
-  height: 100%;
-  width: 17%;
-  font-size: 18px;
-  color: rgb(8, 226, 171);
-  background-color: #3d3b37;
-}
-
-#body-users h2 {
-  border: solid 1px #1d1e20;
-  border-left: 0;
-  background-color: #504d46;
-  padding: 5px;
-  font-size: 14px;
-  font-weight: normal;
-  color: rgb(240, 240, 240);
-  text-align: center;
-}
-
-#list-users {
-  padding: 5px;
-}
-
-#list-users li{
-  list-style: none;
-  padding: 15px;
-  border-top: 0px;
+#users-list li{
+  padding: 8px;
+  margin-left: 30px;
 }
 
 #body-users .the-users {
@@ -73,7 +47,23 @@ body {
 {
   height: 35px;
   width: 400px;
+  border-radius: 5px;
+  border: none;
+  background-color: #ffffff36;
+  color: #fff;
+  text-indent: 15px;
 }
+
+#login-form button
+{
+  margin-left: 10px;
+  height: 35px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffffffc7;
+  cursor: pointer;
+}
+
 
 #login-submit
 {
