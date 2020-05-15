@@ -32,20 +32,25 @@ class App extends Component {
 
     render() {
         return (
-            <div className="app">
-                {this.state.courantLogged &&
-                    <>
-                        <UsersList socket={this.state.socket} />
-                        <Chat socket={this.state.socket} />
-                    </>
-                }
+            <div className='app'>
+                <div className='idbar'>
+                    <h1>OVACHAT</h1>
+                </div>
+                <div className='app-content'>
+                    {this.state.courantLogged &&
+                        <>
+                            <UsersList socket={this.state.socket} />
+                            <Chat socket={this.state.socket} />
+                        </>
+                    }
 
-                {!this.state.courantLogged &&
-                    < Login
-                        socket={this.state.socket}
-                        courantLogged={this.state.courantLogged}
-                    />
-                }
+                    {!this.state.courantLogged &&
+                        < Login
+                            socket={this.state.socket}
+                            courantLogged={this.state.courantLogged}
+                        />
+                    }
+                </div>
             </div>
         );
     }

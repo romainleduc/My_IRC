@@ -12,9 +12,23 @@ body {
   font-family: 'ABeeZee', sans-serif;
 }
 
-.app {
+.app-content {
+  height: calc(100% - 53px);
   display: flex;
   justify-content: space-between;
+}
+
+.idbar {
+  background-color: #0000005e;
+  text-align: center;
+  padding: 12px;
+  border-bottom: solid 1px #ffffff0a;
+}
+
+.idbar h1 {
+  margin: 0;
+  color: #ffffff5e;
+  font-size: 18px;;
 }
 
 #users-list {
