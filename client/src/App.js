@@ -24,6 +24,10 @@ class App extends Component {
                 courantLogged: true
             });
         });
+
+        this.state.socket.on('error message', (message) => {
+            alert(message);
+        });
     }
 
     render() {

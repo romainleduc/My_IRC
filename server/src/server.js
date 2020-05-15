@@ -16,8 +16,8 @@ var deleteUsers = [];
 function getUserByRoom(room) {
     var usersRoom = [];
 
-    for(var i in users) {
-        if(users[i].room.name == room) {
+    for (var i in users) {
+        if (users[i].room.name == room) {
             usersRoom.push(users[i]);
         }
     }
@@ -29,8 +29,8 @@ function getUserByRoom(room) {
  * 
  */
 function searchUser(user) {
-    for(var i in users) {
-        if(users[i].name == user.name) {
+    for (var i in users) {
+        if (users[i].name == user.name) {
             return i;
         }
     }
@@ -42,8 +42,8 @@ function searchUser(user) {
  * 
  */
 function searchUserByName(username) {
-    for(var i in users) {
-        if(users[i].name == username) {
+    for (var i in users) {
+        if (users[i].name == username) {
             return users[i];
         }
     }
@@ -55,8 +55,8 @@ function searchUserByName(username) {
  * 
  */
 function searchUserById(id) {
-    for(var i in users) {
-        if(users[i].id == id) {
+    for (var i in users) {
+        if (users[i].id == id) {
             return users[i];
         }
     }
@@ -70,8 +70,8 @@ function searchUserById(id) {
 function userIsUnique(nameUser) {
     var unique = true;
 
-    for(var i in users) {
-        if(users[i].name == nameUser) {
+    for (var i in users) {
+        if (users[i].name == nameUser) {
             unique = false;
         }
     }
@@ -83,8 +83,8 @@ function userIsUnique(nameUser) {
  * 
  */
 function deleteUser(user) {
-    for(var i in users) {
-        if(users[i].name == user.name) {
+    for (var i in users) {
+        if (users[i].name == user.name) {
             users.splice(i, 1);
         }
     }
@@ -97,22 +97,22 @@ var rooms = [
     {
         owner: 'Admin',
         name: 'Lobby',
-        state :'Unlock'
+        state: 'Unlock'
     }
 ];
 
 var roomAutoDelete = 5000;
 
 function beetween(value, min, max) {
-    return (value < min || value > max) ? false : true; 
+    return (value < min || value > max) ? false : true;
 }
 
 /**
  * 
  */
 function searchRoom(NameRoom) {
-    for(var key in rooms) {
-        if(NameRoom == rooms[key].name) {
+    for (var key in rooms) {
+        if (NameRoom == rooms[key].name) {
             return key;
         }
     }
@@ -123,8 +123,8 @@ function searchRoom(NameRoom) {
 function CountUsersInRoom(RoomName) {
     var count = 0;
 
-    for(var i in users) {
-        if(users[i].room.name == RoomName) {
+    for (var i in users) {
+        if (users[i].room.name == RoomName) {
             count++;
         }
     }
@@ -135,7 +135,7 @@ function CountUsersInRoom(RoomName) {
 /**
  * Listen if a connection is made on the socket
  */
-io.on('connection', function(socket) {
+io.on('connection', function (socket) {
     /**
     * Current user
     */
@@ -152,24 +152,21 @@ io.on('connection', function(socket) {
      * 
      */
     function changeUsername(username) {
-        var errors = [];
-
-        if(typeof(username) == "string") {
-            if(!userIsUnique(username)) {
-                errors.push("L'utilisateur n'est pas unique");
+        if (typeof (username) == "string") {
+            if (!userIsUnique(username)) {
+                sendErrorMessage('L\'utilisateur n\'est pas unique');
+                return false;
             }
 
-            if(!beetween(username.length, 3, 9)) {
-                errors.push("La taille du pseudo doit faire entre 3 et 9 caracteres");
+            if (!beetween(username.length, 3, 9)) {
+                sendErrorMessage('La taille du pseudo doit faire entre 3 et 9 caracteres');
+                return false;
             }
+            var user = searchUserById(socket.id);
 
-            if(errors.length == 0) {
-                var user = searchUserById(socket.id);
-                
-                if(user) {
-                    user.name = username;
-                    return true;
-                }
+            if (user) {
+                user.name = username;
+                return true;
             }
         }
 
@@ -180,9 +177,9 @@ io.on('connection', function(socket) {
      * Init all users
      */
     function InitUsers() {
-        for(var i in users) {
-            if(users[i] != null) {
-                if(users[i].name != "Unknow" && users[i].name != socket.user.name) {
+        for (var i in users) {
+            if (users[i] != null) {
+                if (users[i].name != "Unknow" && users[i].name != socket.user.name) {
                     socket.emit('newUser', users[i].name);
                 }
             }
@@ -193,9 +190,9 @@ io.on('connection', function(socket) {
      * 
      */
     function resetUsers() {
-        for(var i in users) {
-            if(users[i] != null) {
-                if(users[i].name != "Unknow" && users[i].name != socket.user.name) {
+        for (var i in users) {
+            if (users[i] != null) {
+                if (users[i].name != "Unknow" && users[i].name != socket.user.name) {
                     socket.emit('deleteUser', users[i].name);
                 }
             }
@@ -203,7 +200,7 @@ io.on('connection', function(socket) {
     }
 
     function InitChannels() {
-        for(var i in rooms) {
+        for (var i in rooms) {
             socket.emit('addRoom', rooms[i].name);
         }
     }
@@ -212,15 +209,16 @@ io.on('connection', function(socket) {
      * 
      */
     function deleteRoom(theRoom) {
-        if(!theRoom || typeof(theRoom) !== 'string') {
+        if (!theRoom || typeof (theRoom) !== 'string') {
+            sendErrorMessage('Le channel est invalide');
             return false;
         }
-    
+
         var index = searchRoom(theRoom);
 
-        if(index !== -1) {
-            if(rooms[index].owner !== socket.user.name) {
-                console.log("Tu n'es pas le proprietaire de ce channel");
+        if (index !== -1) {
+            if (rooms[index].owner !== socket.user.name) {
+                sendErrorMessage('Tu n\'es pas le proprietaire de ce channel');
                 return false;
             } else {
                 rooms.splice(index, 1);
@@ -228,27 +226,27 @@ io.on('connection', function(socket) {
             }
         }
 
+        sendErrorMessage('Le channel n\'existe pas');
         return false;
     }
 
     /**
      * 
      */
-    socket.on('addRoom', function(room) {
+    socket.on('addRoom', function (room) {
         socket.emit('addRoom', room);
     });
 
     /**
      * 
      */
-    socket.on('CommandCreate', function(theRoom = []) {
+    socket.on('CommandCreate', function (theRoom = []) {
         theRoom = theRoom.toString().replace(",", " ");
 
-        if(typeof(theRoom) == 'string' && beetween(theRoom.length, 4, 15))
-        {
-            if(searchRoom(theRoom) > -1) {
-                console.log("Room deja existante");
-                return false;   
+        if (typeof (theRoom) == 'string' && beetween(theRoom.length, 4, 15)) {
+            if (searchRoom(theRoom) > -1) {
+                sendErrorMessage('Ce channel existe déjà');
+                return false;
             }
 
             rooms.push({
@@ -257,18 +255,18 @@ io.on('connection', function(socket) {
                 state: 'Unlock'
             });
 
-            //setTimeout(function(){ console.log("ok super supprimé"); }, roomAutoDelete);
-
             allSendBotMessage("<FONT COLOR ='#fff'>" + socket.user.name + "</FONT>" + " vient de creer le channel  <FONT COLOR ='#ff9200'>" + theRoom + "</FONT>");
+        } else {
+            sendErrorMessage('Le channel est invalide');
         }
     });
 
     /**
      * 
      */
-    socket.on('CommandDelete', function(targetRoom = []) {
+    socket.on('CommandDelete', function (targetRoom = []) {
         var theRoom = targetRoom.toString().replace(",", " ");
-        if(deleteRoom(theRoom)) {
+        if (deleteRoom(theRoom)) {
             allSendBotMessage("<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT>" + " vient de supprimer le channel <FONT COLOR ='#ff9200'>" + theRoom + "</FONT>");
             io.to(theRoom).emit('RedirectDelete');
         }
@@ -277,36 +275,42 @@ io.on('connection', function(socket) {
     /**
      * 
      */
-    socket.on('CommandChange', function(theRooms = []) {
-        if(typeof(theRooms[0]) !== "string" || typeof(theRooms[1]) !== "string") {
+    socket.on('CommandChange', function (theRooms = []) {
+        if (typeof (theRooms[0]) !== "string" || typeof (theRooms[1]) !== "string") {
             return false;
         }
 
         var index = searchRoom(theRooms[0]);
 
-        if(index !== -1 && rooms[index].owner === socket.user.name) {
-            rooms[index].name = theRooms[1];
-
-            allSendBotMessage("<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT>" + " vient de changer le channel <FONT COLOR ='#dc8019'>" + theRooms[0] + "</FONT>" + " en " +  "<FONT COLOR ='#dc8019'>" + theRooms[1] + "</FONT>");
+        if (index === -1) {
+            sendErrorMessage('Le channel n\'existe pas');
+            return;
         }
+
+        if (rooms[index].owner !== socket.user.name) {
+            sendErrorMessage('Tu n\'es pas le proprietaire de ce channel');
+        }
+        
+        rooms[index].name = theRooms[1];
+        allSendBotMessage("<FONT COLOR ='#08E0AF'>" + socket.user.name + "</FONT>" + " vient de changer le channel <FONT COLOR ='#dc8019'>" + theRooms[0] + "</FONT>" + " en " + "<FONT COLOR ='#dc8019'>" + theRooms[1] + "</FONT>");
     });
 
     /**
      * 
      */
-    socket.on('RedirectDelete', function() {
+    socket.on('RedirectDelete', function () {
         var room = socket.user.room.name;
 
         JoinRoom('Lobby');
 
         deleteUsers.push(socket.user.name);
 
-        if(!getUserByRoom(room)[0]) {
+        if (!getUserByRoom(room)[0]) {
             sendBotMessage("Un groupe de " + deleteUsers.length + " personne(s) vient de rejoindre le channel:", deleteUsers);
             deleteUsers = [];
         }
     });
-    
+
 
     /**
      * 
@@ -317,19 +321,26 @@ io.on('connection', function(socket) {
         var indexRoom = searchRoom(targetRoom);
         var indexUser = searchUser(socket.user);
 
-        if(indexRoom > -1 && indexUser > -1) {
+        if (indexRoom > -1 && indexUser > -1) {
             socket.leave(socket.user.room.name);
             socket.user.room = rooms[indexRoom];
             users[indexUser] = socket.user;
             socket.join(socket.user.room.name);
-            if(message != ""){
+            if (message != "") {
                 sendBotMessage(message);
             }
             return true;
         }
 
-        console.log("Room inexistante");
+        sendErrorMessage('Room inexistante');
         return false;
+    }
+
+    /**
+     * 
+     */
+    function sendErrorMessage(message) {
+        socket.emit('error message', message);
     }
 
     /**
@@ -337,22 +348,22 @@ io.on('connection', function(socket) {
      */
     function sendBotMessage(message, tab = [], color = "#08E0AF", test = false) {
         io.to(socket.user.room.name).emit(
-            'chat message', "Bot_IRC [<FONT COLOR ='#fff'>"+socket.user.room.name + "</FONT>]",
+            'chat message', "Bot_IRC [<FONT COLOR ='#fff'>" + socket.user.room.name + "</FONT>]",
             message,
             color,
             tab
         );
     }
 
-    function sendPrivateMessage(username, msg, color = "#08E0AF", tab=[]) {
+    function sendPrivateMessage(username, msg, color = "#08E0AF", tab = []) {
         var user = searchUserByName(username);
-        
-        if(user) {
-            io.sockets.connected[user.id].emit('chat message', socket.user.name + " [<FONT COLOR = '#ffee00'>message privé</FONT>]" , msg, color, tab);
+
+        if (user) {
+            io.sockets.connected[user.id].emit('chat message', socket.user.name + " [<FONT COLOR = '#ffee00'>message privé</FONT>]", msg, color, tab);
             socket.emit('chat message', '<FONT COLOR = "#ffee00">à </FONT>' + user.name, msg, color, tab);
         }
     }
-    
+
     /**
      * 
      */
@@ -370,38 +381,38 @@ io.on('connection', function(socket) {
     /**
      * Join a room
      */
-    socket.on('CommandJoin', function(targetRoom = "") {
+    socket.on('CommandJoin', function (targetRoom = "") {
         JoinRoom(targetRoom, "<FONT COLOR ='#fff'>" + socket.user.name + "</FONT> vient de rejoindre le channel");
     });
 
     /**
      * Leave current room and join lobby
      */
-    socket.on('CommandLeave', function(targetRoom = "") {
+    socket.on('CommandLeave', function (targetRoom = "") {
         var oldRoom = socket.user.room.name;
 
-        if(JoinRoom("Lobby",
+        if (JoinRoom("Lobby",
             "<FONT COLOR ='#fff'>" + socket.user.name + "</FONT> vient de rejoindre le channel")) {
-                socket.broadcast.to(oldRoom).emit(
-                    'chat message', "Bot_IRC [<FONT COLOR ='#dc8019'>"+oldRoom + "</FONT>]",
-                    "<FONT COLOR ='#fff'>" + socket.user.name + "</FONT> a quitté le channel pour rejoindre le " + "<FONT COLOR ='#ff9200'> lobby</FONT>",
-                    '#08E0AF'
-                );
-        }   
+            socket.broadcast.to(oldRoom).emit(
+                'chat message', "Bot_IRC [<FONT COLOR ='#dc8019'>" + oldRoom + "</FONT>]",
+                "<FONT COLOR ='#fff'>" + socket.user.name + "</FONT> a quitté le channel pour rejoindre le " + "<FONT COLOR ='#ff9200'> lobby</FONT>",
+                '#08E0AF'
+            );
+        }
     });
 
     /**
      * 
      */
-    socket.on('CommandUsers', function() {
+    socket.on('CommandUsers', function () {
         var theUsers = getUserByRoom(socket.user.room.name).filter((user) => user.logged == true);
         var test = [];
 
-        for(var i in theUsers) {
+        for (var i in theUsers) {
             test.push(theUsers[i].name);
         }
 
-        if(test) {
+        if (test) {
             localSendBotMessage("Liste des utilisateurs present sur le channel:",
                 test);
         }
@@ -410,15 +421,15 @@ io.on('connection', function(socket) {
     /**
      * 
      */
-    socket.on('CommandWhere', function(usernames = []) {
-        if(!usernames[0]) {
+    socket.on('CommandWhere', function (usernames = []) {
+        if (!usernames[0]) {
             localSendBotMessage("Tu es actuellement dans le canal <FONT COLOR ='#dc8019'>" + socket.user.room.name + "</FONT>");
             return;
         }
 
         var user = searchUserByName(usernames[0]);
 
-        if(!user) {
+        if (!user) {
             localSendBotMessage("L'utilisateur " + usernames[0] + " est introuvable");
             return;
         }
@@ -429,15 +440,15 @@ io.on('connection', function(socket) {
     /**
      * 
      */
-    socket.on("CommandList", function(options = []) {
+    socket.on("CommandList", function (options = []) {
         var result = [];
 
         var j = 0;
-        for(var i in rooms) {
-            if(!options[0]) {
+        for (var i in rooms) {
+            if (!options[0]) {
                 result[j] = rooms[i].name;
                 j++;
-            } else if(rooms[i].name.indexOf(options[0]) != -1) {
+            } else if (rooms[i].name.indexOf(options[0]) != -1) {
                 result[j] = rooms[i].name;
                 j++;
             }
@@ -449,10 +460,10 @@ io.on('connection', function(socket) {
     /**
      * 
      */
-    socket.on("CommandNick", function(options = []) {
+    socket.on("CommandNick", function (options = []) {
         var oldName = socket.user.name;
 
-        if(changeUsername(options.toString().replace(",", " "))) {
+        if (changeUsername(options.toString().replace(",", " "))) {
             allSendBotMessage("<FONT COLOR ='#fff'>" + oldName + "</FONT>" + " vient de changer son pseudo en " + "<FONT COLOR ='#fff'>" + socket.user.name + "</FONT>");
             io.emit('initUsers', users.filter((user) => user.logged === true));
         }
@@ -461,29 +472,33 @@ io.on('connection', function(socket) {
     /**
      * 
      */
-    socket.on('CommandMsg', function(options) {
-        if(options.length >= 2) {
+    socket.on('CommandMsg', function (options) {
+        if (options.length >= 2) {
             var user = searchUserByName(options[0]);
 
-            if(user) {
+            if (user) {
                 var msg = options.filter((item) => item !== options[0]).toString().replace(',', ' ');
                 sendPrivateMessage(user.name, msg);
+            } else {
+                sendErrorMessage('Utilisateur introuvable');
             }
+        } else {
+            sendErrorMessage('La commande doit prend deux parametres');
         }
     });
 
     /**
      * 
      */
-    socket.on('chat message', function(msg) {
+    socket.on('chat message', function (msg) {
         io.to(socket.user.room.name).emit('chat message', socket.user.name, msg, color = "#fff");
     });
 
     /**
      * 
      */
-    socket.on('login', function(username) {
-        if(socket.user.logged === false && changeUsername(username)) {
+    socket.on('login', function (username) {
+        if (socket.user.logged === false && changeUsername(username)) {
             socket.emit('logged', username);
             InitUsers();
             InitChannels();
@@ -496,8 +511,8 @@ io.on('connection', function(socket) {
     /**
      * 
      */
-    socket.on('disconnect', function() {
-        if(socket.user.name != "Unknow") {
+    socket.on('disconnect', function () {
+        if (socket.user.name != "Unknow") {
             io.emit('removeUser', socket.user.name);
             sendBotMessage("<FONT COLOR ='#fff'>" + socket.user.name + "</FONT> est parti");
             deleteUser(socket.user);
@@ -510,6 +525,6 @@ io.on('connection', function(socket) {
 /**
  * 
  */
-io.listen(3001, function(){
+io.listen(3001, function () {
     console.log('listening on *:3009');
 });
